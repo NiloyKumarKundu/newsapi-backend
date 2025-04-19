@@ -12,6 +12,10 @@ router = APIRouter(
 )
 
 
+@router.get("/")
+async def testing_api(request: Request):
+    return {"message": "Connection successful"}
+
 @router.post("/signup")
 async def create_user(request: Request, payload: UserPydantic):
     return await create_user_view(payload)

@@ -19,6 +19,7 @@ class UserPydantic(UserBasePydantic):
     email: str
     password: str
     first_name: str
+    last_name: str
     created_at: Optional[None] = None
     updated_at: Optional[None] = None
 

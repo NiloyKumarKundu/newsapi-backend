@@ -13,14 +13,8 @@ router = APIRouter(
 
 
 @router.get("/")
-async def get_all_news(
-    request: Request,
-    q: str = Query(..., description="Search query"),
-    language: str = Query("en", description="Language of the news"),
-    sort_by: str = Query("publishedAt", alias="sortBy", description="Sort by"),
-    page_size: int = Query(10, alias="pageSize", ge=1, le=100, description="Number of articles")
-):
-    return await get_all_news_views(request, q, language, sort_by, page_size)
+async def get_all_news(request: Request, page: int = Query(1, gt=0), limit: int = Query(10, gt=0, le=100)):
+    return await get_all_news_views(request, page, limit)
 
 
 @router.post("/save_latest_news")

@@ -4,7 +4,7 @@ services:
   web:
     build: .
     container_name: fastapi_app
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - .:/app
     ports:
@@ -12,11 +12,11 @@ services:
     depends_on:
       - db
     environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_NAME=news
-      - DB_USER=postgres
-      - DB_PASSWORD=password
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_NAME=newsapi
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=password
 
   db:
     image: postgres:15
@@ -25,7 +25,6 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: news
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     volumes:

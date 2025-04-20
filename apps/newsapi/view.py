@@ -1,4 +1,5 @@
 import datetime
+import math
 import requests
 from requests.exceptions import ReadTimeout, ConnectTimeout
 from fastapi import File
@@ -14,13 +15,13 @@ from conf.global_vars import NEWS_API_ENDPOINT, NEWS_API_KEY
 
 
 
-async def get_all_news_views(request: Request, q: str, language: str, sort_by: str, page_size: int):
+async def get_all_news_views(request: Request, page, limit):
     try:
         params = {
-            "q": q,
-            "language": language,
-            "sortBy": sort_by,
-            "pageSize": page_size
+            "q": "news",
+            "language": 'en',
+            "sortBy": 'popularity',
+            "pageSize": 100
         }
 
         headers = {
@@ -29,16 +30,36 @@ async def get_all_news_views(request: Request, q: str, language: str, sort_by: s
 
         response = requests.get(NEWS_API_ENDPOINT, headers=headers, params=params)
 
-        if response.status_code == 200:
-            return CustomJSONResponse(status_code=200, content=response.json())
-        else:
+        if response.status_code != 200:
             return CustomJSONResponse(
                 status_code=response.status_code,
-                content={"message": "Failed to fetch news", "details": response.text}
+                content={
+                    "message": "Failed to fetch news",
+                    "details": response.text
+                }
             )
+
+        all_articles = response.json().get("articles", [])
+        total_items = len(all_articles)
+        total_pages = math.ceil(total_items / limit) if total_items else 0
+
+        # calculate slice
+        start = (page - 1) * limit
+        end = start + limit
+        page_articles = all_articles[start:end] if start < total_items else []
+
+        return CustomJSONResponse(
+            status_code=200,
+            content={
+                "page": page,
+                "limit": limit,
+                "total_pages": total_pages,
+                "total_items": total_items,
+                "articles": page_articles
+            }
+        )
     except requests.exceptions.RequestException as e:
         return CustomJSONResponse(status_code=500, content={"message": "Request failed", "error": str(e)})
-    
     
 
 

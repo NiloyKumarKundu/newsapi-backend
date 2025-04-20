@@ -17,6 +17,6 @@ async def get_all_news(request: Request, page: int = Query(1, gt=0), limit: int 
     return await get_all_news_views(request, page, limit)
 
 
-@router.post("/save_latest_news")
+@router.post("/save-latest")
 async def save_latest_news(request: Request):
     return await save_latest_news_view(request)

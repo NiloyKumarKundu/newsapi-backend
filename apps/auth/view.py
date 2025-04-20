@@ -9,7 +9,7 @@ from operator import or_
 from models import User
 from conf.response import CustomJSONResponse
 from utils.token import create_access_token
-from .pydantic_models import UserPydantic, Login, UserResponse
+from .pydantic_models import UserPydantic, Login
 
 
 async def create_user_view(payload: UserPydantic):

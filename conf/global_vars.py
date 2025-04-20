@@ -18,3 +18,7 @@ POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 # MISC
 DEFAULT_TIMEZONE = os.getenv('DEFAULT_TIMEZONE', 'UTC')
 JWT_SECRET = os.getenv('JWT_SECRET', 'test')
+
+# NEWS API
+NEWS_API_ENDPOINT = os.getenv('API_ENDPOINT', 'https://newsapi.org/v2/everything')
+NEWS_API_KEY = os.getenv('NEWS_API_KEY', 'test')

@@ -3,7 +3,6 @@
 This project provides a FastAPI service that fetches articles from the News API, implements server‑side pagination, and persists selected headlines into a PostgreSQL database using Tortoise ORM.
 
 🔧 Prerequisites
-- Conda (or another Python virtual environment manager)
 - Docker & Docker Compose (for containerized development)
 - News API Key (obtainable from ![https://newsapi.org/][https://newsapi.org/])
 
